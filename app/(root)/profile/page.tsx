@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
@@ -6,15 +5,20 @@ import { Collection } from "@/components/shared/Collection";
 import Header from "@/components/shared/Header";
 import { getUserImages } from "@/lib/actions/image.actions";
 import { getUserById } from "@/lib/actions/user.actions";
+import { SearchParamProps } from "@/types";
+import { currentUser as currentUserHook } from "@/lib/auth";
 
 const Profile = async ({ searchParams }: SearchParamProps) => {
   const page = Number(searchParams?.page) || 1;
-  const { userId } = auth();
 
-  if (!userId) redirect("/sign-in");
+  const currentUser = await currentUserHook();
+  if (!currentUser) redirect("/sign-in");
+  const user = await getUserById(currentUser.id);
 
-  const user = await getUserById(userId);
-  const images = await getUserImages({ page, userId: user._id });
+  //THROW ERROR HERE
+
+  const images = await getUserImages({ page, userId: user!.id });
+  console.log(images);
 
   return (
     <>
@@ -31,7 +35,7 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
               height={50}
               className="size-9 md:size-12"
             />
-            <h2 className="h2-bold text-dark-600">{user.creditBalance}</h2>
+            <h2 className="h2-bold text-dark-600">{user!.creditBalance}</h2>
           </div>
         </div>
 
@@ -52,7 +56,7 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
 
       <section className="mt-8 md:mt-14">
         <Collection
-          images={images?.data}
+          images={[]}
           totalPages={images?.totalPages}
           page={page}
         />
