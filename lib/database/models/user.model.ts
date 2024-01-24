@@ -1,10 +1,10 @@
 import { Schema, model, models } from "mongoose";
 
+
 const UserSchema = new Schema({
-  clerkId: {
-    type: String,
-    required: true,
-    unique: true,
+  emailVerified: {
+    type:  Boolean,
+    required: false,
   },
   email: {
     type: String,
@@ -16,15 +16,17 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
-  photo: {
+  image: {
     type: String,
     required: true,
   },
   firstName: {
     type: String,
+    required: true
   },
   lastName: {
     type: String,
+    required: true
   },
   planId: {
     type: Number,
