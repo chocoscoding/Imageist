@@ -21,13 +21,13 @@ export type UpdateUserParams = {
 
 // ====== IMAGE PARAMS
 export type AddImageParams = {
-  image: Image;
+  image: Omit<Image, "id" | "createdAt" | "updatedAt", "authorId">;
   userId: string;
   path: string;
 };
 
 export type UpdateImageParams = {
-  image: Image
+  image: Partial<Image>;
   userId: string;
   path: string;
 };
@@ -65,12 +65,7 @@ export type CreateTransactionParams = {
   createdAt: Date;
 };
 
-export type TransformationTypeKey =
-  | "restore"
-  | "fill"
-  | "remove"
-  | "recolor"
-  | "removeBackground";
+export type TransformationTypeKey = "restore" | "fill" | "remove" | "recolor" | "removeBackground";
 
 // ====== URL QUERY PARAMS
 export type FormUrlQueryParams = {

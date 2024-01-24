@@ -1,6 +1,7 @@
 import { Collection } from "@/components/shared/Collection";
 import { navLinks } from "@/constants";
 import { getAllImages } from "@/lib/actions/image.actions";
+import { currentUser } from "@/lib/auth";
 import { SearchParamProps } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,16 +11,15 @@ const Home = async ({ searchParams }: SearchParamProps) => {
   const searchQuery = (searchParams?.query as string) || "";
 
   const images = await getAllImages({ page, searchQuery });
-  console.log(images);
 
   return (
     <>
       <section className="home">
         <h1 className="home-heading">Unleash Your Creative Vision with Imaginify</h1>
         <ul className="flex-center w-full gap-20">
-          {navLinks.slice(1, 5).map((link) => (
+          {navLinks.slice(1, 5).map((link, i) => (
             <Link
-              key={link.route}
+              key={link.route + "i"}
               href={link.route}
               className="flex-center flex-col gap-2">
               <li className="flex-center w-fit rounded-full bg-white p-4">

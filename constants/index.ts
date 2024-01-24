@@ -72,10 +72,10 @@ export const plans = [
     name: "Pro Package",
     icon: "/assets/icons/free-plan.svg",
     price: 40,
-    credits: 120,
+    credits: 150,
     inclusions: [
       {
-        label: "120 Credits",
+        label: "150 Credits",
         isIncluded: true,
       },
       {
@@ -96,7 +96,7 @@ export const plans = [
     _id: 3,
     name: "Premium Package",
     icon: "/assets/icons/free-plan.svg",
-    price: 199,
+    price: 149,
     credits: 2000,
     inclusions: [
       {
@@ -153,7 +153,7 @@ export const transformationTypes = {
   recolor: {
     type: "recolor",
     title: "Object Recolor",
-    subTitle: "Identify and recolor objects from the image",
+    subTitle: "Identify and recolour objects from the image",
     config: {
       recolor: { prompt: "", to: "", multiple: true },
     },

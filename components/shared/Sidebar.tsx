@@ -11,8 +11,6 @@ import { signIn } from "@/auth";
 
 const Sidebar = () => {
   const pathname = usePathname();
-  const { status, data } = useSession();
-  console.log(data?.user);
   return (
     <aside className="sidebar">
       <div className="flex size-full flex-col gap-4">
@@ -82,12 +80,16 @@ const Sidebar = () => {
 
           {/* for the bottom */}
           <div className="w-full flex flex-col gap-y-4">
-            <div className="cursor-pointer gap-2">
-              <UserButton
-                afterSignOutUrl="/"
-                showName
-              />
-            </div>
+            <SignedIn>
+              <Link
+                href={"/settings"}
+                className="cursor-pointer gap-2">
+                <UserButton
+                  afterSignOutUrl="/"
+                  showName
+                />
+              </Link>
+            </SignedIn>
 
             <SignedIn>
               <Button
