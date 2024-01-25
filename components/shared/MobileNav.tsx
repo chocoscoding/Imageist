@@ -27,7 +27,11 @@ const MobileNav = () => {
       <nav className="flex gap-2">
         <SignedIn>
           <div className="flex gap-x-2">
-            <UserButton afterSignOutUrl="/" />
+            <Link
+              href={"/settings"}
+              className="cursor-pointer gap-2">
+              <UserButton afterSignOutUrl="/" />
+            </Link>
             <Sheet>
               <SheetTrigger>
                 <Image

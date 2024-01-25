@@ -18,8 +18,6 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
   //THROW ERROR HERE
 
   const images = await getUserImages({ page, userId: user!.id });
-  console.log(images);
-
   return (
     <>
       <Header title="Profile" />
@@ -56,8 +54,8 @@ const Profile = async ({ searchParams }: SearchParamProps) => {
 
       <section className="mt-8 md:mt-14">
         <Collection
-          images={[]}
-          totalPages={images?.totalPages}
+          images={images.data}
+          totalPages={images.totalPages}
           page={page}
         />
       </section>

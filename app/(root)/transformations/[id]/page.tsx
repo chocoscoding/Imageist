@@ -1,4 +1,3 @@
-import { auth } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,12 +8,15 @@ import { getImageById } from "@/lib/actions/image.actions";
 import { getImageSize } from "@/lib/utils";
 import { DeleteConfirmation } from "@/components/shared/DeleteConfirmation";
 import { SearchParamProps } from "@/types";
+import { currentUser } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
-  const { userId } = auth();
+  const current_user = await currentUser();
+  if (!current_user) redirect("/sign-in");
 
   const image = await getImageById(id);
-  return <>hi</>;
+  if (!image) return <>Page not found</>;
 
   return (
     <>
@@ -23,9 +25,7 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
       <section className="mt-5 flex flex-wrap gap-4">
         <div className="p-14-medium md:p-16-medium flex gap-2">
           <p className="text-dark-600">Transformation:</p>
-          <p className=" capitalize text-purple-400">
-            {image.transformationType}
-          </p>
+          <p className=" capitalize text-purple-400">{image.transformationType}</p>
         </div>
 
         {image.prompt && (
@@ -80,20 +80,21 @@ const ImageDetails = async ({ params: { id } }: SearchParamProps) => {
             type={image.transformationType}
             title={image.title}
             isTransforming={false}
-            transformationConfig={image.config}
+            transformationConfig={JSON.parse(JSON.stringify(image.config))}
             hasDownload={true}
           />
         </div>
 
-        {userId === image.author.clerkId && (
+        {current_user.id === image.authorId && (
           <div className="mt-4 space-y-4">
-            <Button asChild type="button" className="submit-button capitalize">
-              <Link href={`/transformations/${image._id}/update`}>
-                Update Image
-              </Link>
+            <Button
+              asChild
+              type="button"
+              className="submit-button capitalize">
+              <Link href={`/transformations/${image.id}/update`}>Update Image</Link>
             </Button>
 
-            <DeleteConfirmation imageId={image._id} />
+            <DeleteConfirmation imageId={image.id} />
           </div>
         )}
       </section>

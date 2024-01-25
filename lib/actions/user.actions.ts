@@ -44,7 +44,7 @@ export async function updateUser(userId: string, user: UpdateUserParams) {
 }
 
 // DELETE
-export async function deleteUser(userId: string) {
+export async function deleteUser(userId?: string) {
   try {
     // Delete user
     const deletedUser = await db.user.delete({ where: { id: userId } });

@@ -5,19 +5,15 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { CldImage } from "next-cloudinary";
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { transformationTypes } from "@/constants";
-import { IImage } from "@/lib/database/models/image.model";
 import { formUrlQuery } from "@/lib/utils";
 
 import { Button } from "../ui/button";
 
 import { Search } from "./Search";
+import { TransformationTypeKey } from "@/types";
+import { ImageExtendedType } from "@/lib/actions/image.actions";
 
 export const Collection = ({
   hasSearch = false,
@@ -25,7 +21,7 @@ export const Collection = ({
   totalPages = 1,
   page,
 }: {
-  images: IImage[];
+  images: Array<ImageExtendedType>;
   totalPages?: number;
   page: number;
   hasSearch?: boolean;
@@ -56,7 +52,10 @@ export const Collection = ({
       {images.length > 0 ? (
         <ul className="collection-list">
           {images.map((image) => (
-            <Card image={image} key={image._id} />
+            <Card
+              image={image}
+              key={image.id}
+            />
           ))}
         </ul>
       ) : (
@@ -71,8 +70,7 @@ export const Collection = ({
             <Button
               disabled={Number(page) <= 1}
               className="collection-btn"
-              onClick={() => onPageChange("prev")}
-            >
+              onClick={() => onPageChange("prev")}>
               <PaginationPrevious className="hover:bg-transparent hover:text-white" />
             </Button>
 
@@ -83,8 +81,7 @@ export const Collection = ({
             <Button
               className="button w-32 bg-purple-gradient bg-cover text-white"
               onClick={() => onPageChange("next")}
-              disabled={Number(page) >= totalPages}
-            >
+              disabled={Number(page) >= totalPages}>
               <PaginationNext className="hover:bg-transparent hover:text-white" />
             </Button>
           </PaginationContent>
@@ -94,30 +91,26 @@ export const Collection = ({
   );
 };
 
-const Card = ({ image }: { image: IImage }) => {
+const Card = ({ image }: { image: ImageExtendedType }) => {
   return (
     <li>
-      <Link href={`/transformations/${image._id}`} className="collection-card">
+      <Link
+        href={`/transformations/${image.id}`}
+        className="collection-card">
         <CldImage
           src={image.publicId}
           alt={image.title}
-          width={image.width}
-          height={image.height}
-          {...image.config}
+          width={image.width || 0}
+          height={image.height || 0}
+          {...(image.config as object)}
           loading="lazy"
           className="h-52 w-full rounded-[10px] object-cover"
           sizes="(max-width: 767px) 100vw, (max-width: 1279px) 50vw, 33vw"
         />
         <div className="flex-between">
-          <p className="p-20-semibold mr-3 line-clamp-1 text-dark-600">
-            {image.title}
-          </p>
+          <p className="p-20-semibold mr-3 line-clamp-1 text-dark-600">{image.title}</p>
           <Image
-            src={`/assets/icons/${
-              transformationTypes[
-                image.transformationType as TransformationTypeKey
-              ].icon
-            }`}
+            src={`/assets/icons/${transformationTypes[image.transformationType as TransformationTypeKey].icon}`}
             alt={image.title}
             width={24}
             height={24}
