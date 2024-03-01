@@ -14,6 +14,7 @@ import { Button } from "../ui/button";
 import { Search } from "./Search";
 import { TransformationTypeKey } from "@/types";
 import { ImageExtendedType } from "@/lib/actions/image.actions";
+import { useSession } from "next-auth/react";
 
 export const Collection = ({
   hasSearch = false,
@@ -28,6 +29,7 @@ export const Collection = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { status } = useSession();
 
   // PAGINATION HANDLER
   const onPageChange = (action: string) => {
@@ -60,7 +62,7 @@ export const Collection = ({
         </ul>
       ) : (
         <div className="collection-empty">
-          <p className="p-20-semibold">Empty List</p>
+          <p className="p-20-semibold">{status === "authenticated" ? "Empty List" : "Login to create/edit images"}</p>
         </div>
       )}
 

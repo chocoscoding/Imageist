@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/prisma-grey?style=for-the-badge&logo=prisma" alt="prisma" />
   </div>
 
-  <h3 align="center">An AI SaaS Platform</h3>
+  <h3 align="center">IMAGEIST - An AI Image SaaS Platform</h3>
 </div>
 
 ## 📋 <a name="table">Table of Contents</a>

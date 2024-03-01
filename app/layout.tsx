@@ -13,8 +13,8 @@ const IBMPlex = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Image Alchemist",
-  description: "AI-powered image generator",
+  title: "Imageist",
+  description: "AI-powered image generator and editor",
 };
 
 export default async function RootLayout({
