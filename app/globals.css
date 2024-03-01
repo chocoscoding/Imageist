@@ -217,6 +217,9 @@
   .error-toast {
     @apply bg-red-100 text-red-900;
   }
+  .progress-toast {
+    @apply bg-yellow-100 text-yellow-900;
+  }
 
   /* Home Page */
   .home {

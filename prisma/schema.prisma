@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+model User {
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  firstName          String
+  // name          String?
+  lastName          String
+  username          String
+  email         String?   @unique
+  emailVerified Boolean?
+  image         String?
+  creditBalance Int @default(10)
+  planId Int @default(1)
+  accounts      Account[]
+  sessions Session[]
+  images Image[]
+  transaction Transaction[]
+}
+
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String  @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+model Session {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  sessionToken String   @unique
+  id_token          String? @db.String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+
+model Image {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+ transformationType String
+ title String
+  publicId String
+  secureURL String
+  width Int?
+  height Int?
+  config Json?
+  transformationUrl String?
+  aspectRatio String?
+  color String?
+  prompt String?
+
+  authorId String @db.ObjectId
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  stripeId String
+  amount Int
+  plan String?
+  credits Int
+  buyerId String @db.ObjectId
+  buyer User @relation(fields: [buyerId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
