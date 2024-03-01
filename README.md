@@ -22,7 +22,7 @@
 
 ## <a name="about">🧐 About</a>
 
-This cloud-based platform leverages cutting-edge AI to enhance your images. It boasts powerful image processing, secure payments, advanced search, and multiple AI features like restoration, recoloring, object removal, background removal, and even intelligent content generation.
+This cloud-based platform leverages cutting-edge AI to enhance your images. It boasts powerful image processing, secure payments, advanced search, and multiple AI features like restoration, recoloring, object removal, background removal, and even intelligent content generation. Enjoy here 👉 [Link to site](imageist.vercel.app)
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
